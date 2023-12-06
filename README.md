@@ -1,16 +1,13 @@
-# examenpmdm_pap_mmartinez_1ev
+# examenpmdm_psp_mmartinez_1ev
 
 Examen 1EV Marco Martinez.
 
-## Getting Started
+## Información
 
-This project is a starting point for a Flutter application.
+Para el paso 1 de PMDM lo he dividido entre los Commits 2 y 4:
 
-A few resources to get you started if this is your first Flutter project:
+- PMDM: P1) He creado el Splash y el Login.
+- PMDM: P1) He creado un EditText y un Botón customizados, y los he implementado en el Login.
+- PMDM: P1) PASO 1 FINALIZADO. He creado el Registro.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+De ahora en adelante cada commit será un paso.
