@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../CustomViews/ButtonTextCustomizado.dart';
 import '../CustomViews/EditTextCustomizado.dart';
+import '../Singletone/DataHolder.dart';
 
 class RegisterView extends StatelessWidget {
   RegisterView({Key? key});
@@ -14,7 +15,22 @@ class RegisterView extends StatelessWidget {
   TextEditingController tecRepassword = TextEditingController();
 
   void onPressedAceptar() {
-
+    if (tecUsername.text.isNotEmpty && tecName.text.isNotEmpty && tecPassword.text.isNotEmpty && tecRepassword.text.isNotEmpty) {
+      if (tecUsername.text.contains("@")) {
+        if (tecPassword.text == tecRepassword.text) {
+          DataHolder().fbAdmin.registerUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
+          ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Usuario registrado exitosamente")));
+          DataHolder().fbAdmin.logInUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
+          Navigator.of(_context).popAndPushNamed("/home_view");
+        } else {
+          ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Las contraseñas no coinciden")));
+        }
+      } else {
+        ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("El email debe contener un \"@\"")));
+      }
+    } else {
+      ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Todos los campos deben estar rellenos")));
+    }
   }
 
   void onPressedCancelar() {

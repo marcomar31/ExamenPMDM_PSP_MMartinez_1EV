@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../CustomViews/ButtonTextCustomizado.dart';
 import '../CustomViews/EditTextCustomizado.dart';
+import '../Singletone/DataHolder.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -17,8 +18,24 @@ class LoginView extends StatelessWidget {
   }
 
   void onPressedAceptar() async {
+    if (tecUsername.text.isNotEmpty && tecPassword.text.isNotEmpty) {
+      if (tecUsername.text.contains("@")) {
+        bool loginExitoso = await DataHolder().fbAdmin.logInUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
 
+        if (loginExitoso) {
+          ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Ha iniciado sesión exitosamente")));
+          Navigator.of(_context).popAndPushNamed("/home_view");
+        } else {
+          ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Inicio de sesión fallido. Verifique sus credenciales")));
+        }
+      } else {
+        ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("El email debe contener un \"@\"")));
+      }
+    } else {
+      ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Todos los campos deben estar rellenos")));
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
