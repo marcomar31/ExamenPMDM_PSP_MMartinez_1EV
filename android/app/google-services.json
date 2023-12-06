@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "563153022874",
+    "project_id": "examen-pmdm-psp-mmartinez-1ev",
+    "storage_bucket": "examen-pmdm-psp-mmartinez-1ev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563153022874:android:62e6b9c10cfc9dd300d423",
+        "android_client_info": {
+          "package_name": "martinez.marco.examenpmdm_pap_mmartinez_1ev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClAYAlqfX3knJBc-43l6tVw2USPFXfQVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCVDx_Mo2Q6wgA4MsEol6LOp3J0OIkTfLc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>563153022874</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>martinez.marco.examenpmdmPapMmartinez1ev</string>
+	<key>PROJECT_ID</key>
+	<string>examen-pmdm-psp-mmartinez-1ev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>examen-pmdm-psp-mmartinez-1ev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:563153022874:ios:41847927c3616dee00d423</string>
+</dict>
+</plist>
