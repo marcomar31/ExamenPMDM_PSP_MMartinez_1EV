@@ -18,7 +18,7 @@ class RegisterView extends StatelessWidget {
   }
 
   void onPressedCancelar() {
-
+    Navigator.of(_context).popAndPushNamed("/login_view");
   }
 
   @override

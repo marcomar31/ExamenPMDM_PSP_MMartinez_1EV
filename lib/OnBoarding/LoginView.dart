@@ -13,7 +13,7 @@ class LoginView extends StatelessWidget {
 
 
   void onPressedRegistrar() {
-
+    Navigator.of(_context).popAndPushNamed("/register_view");
   }
 
   void onPressedAceptar() async {

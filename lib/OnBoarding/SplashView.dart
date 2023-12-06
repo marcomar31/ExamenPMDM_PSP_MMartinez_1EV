@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'LoginView.dart';
+
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
 
@@ -8,6 +10,14 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.of(context).popAndPushNamed("/login_view");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,5 +36,4 @@ class _SplashViewState extends State<SplashView> {
       ),
     );
   }
-
 }
