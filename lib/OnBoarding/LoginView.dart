@@ -1,6 +1,7 @@
-import 'package:examenpmdm_pap_mmartinez_1ev/Customizados/ButtonTextCustomizado.dart';
-import 'package:examenpmdm_pap_mmartinez_1ev/Customizados/EditTextCustomizado.dart';
 import 'package:flutter/material.dart';
+
+import '../CustomViews/ButtonTextCustomizado.dart';
+import '../CustomViews/EditTextCustomizado.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -28,13 +29,14 @@ class LoginView extends StatelessWidget {
         Image.asset("resources/MyLogo.png", height: 325, width: 325,),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-          child: EditTextCustomizado(tec: tecUsername, labelText: "Username", blIsPassword: false),
+          child: EditTextCustomizado(tec: tecUsername, labelText: "Username (email)", blIsPassword: false),
 
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
           child: EditTextCustomizado(tec: tecPassword, labelText: "Password", blIsPassword: true),
         ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
