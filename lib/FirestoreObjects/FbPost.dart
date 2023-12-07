@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FbPost {
   final String titulo;
   final String cuerpo;
-  final String sUrlImage;
+  final String? sUrlImage;
 
   FbPost({
     required this.titulo,
     required this.cuerpo,
-    required this.sUrlImage,
+    this.sUrlImage,
   });
 
   factory FbPost.fromFirestore(
@@ -19,7 +19,7 @@ class FbPost {
     return FbPost(
       titulo: data?['titulo'],
       cuerpo: data?['cuerpo'],
-      sUrlImage: data?['sUrlImage'],
+      sUrlImage: data?['sUrlImage'] ?? "",
     );
   }
 
