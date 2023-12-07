@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/FirestoreObjects/FbProfile.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +16,20 @@ class RegisterView extends StatelessWidget {
   TextEditingController tecPassword = TextEditingController();
   TextEditingController tecRepassword = TextEditingController();
 
-  void onPressedAceptar() {
+  FirebaseFirestore firebaseFirestore = DataHolder().db;
+
+  Future<void> onPressedAceptar() async {
     if (tecUsername.text.isNotEmpty && tecName.text.isNotEmpty && tecPassword.text.isNotEmpty && tecRepassword.text.isNotEmpty) {
       if (tecUsername.text.contains("@")) {
         if (tecPassword.text == tecRepassword.text) {
-          DataHolder().fbAdmin.registerUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
-          ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Usuario registrado exitosamente")));
-          DataHolder().fbAdmin.logInUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
-          Navigator.of(_context).popAndPushNamed("/home_view");
+          bool registroExitoso = await DataHolder().fbAdmin.registerUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
+          if (registroExitoso) {
+            ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Usuario registrado exitosamente")));
+            DataHolder().fbAdmin.logInUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
+            FbProfile fbProfile = FbProfile(nombre: tecName.text);
+            DataHolder().fbAdmin.actualizarPerfilUsuario(firebaseFirestore, fbProfile);
+            Navigator.of(_context).popAndPushNamed("/home_view");
+          }
         } else {
           ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Las contraseñas no coinciden")));
         }

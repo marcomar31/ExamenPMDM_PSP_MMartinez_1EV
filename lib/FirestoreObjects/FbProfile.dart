@@ -13,13 +13,13 @@ class FbProfile {
       ) {
     final data = snapshot.data();
     return FbProfile(
-        nombre: data?['nombre'],
+      nombre: data?['nombre'] ?? '',
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      "nombre": nombre,
+      "nombre": nombre ?? '',
     };
   }
 }

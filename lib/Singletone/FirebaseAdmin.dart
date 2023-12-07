@@ -5,22 +5,17 @@ import '../FirestoreObjects/FbProfile.dart';
 
 class FirebaseAdmin {
   FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> registerUsuario(String emailAddress, String password) async {
+  Future<bool> registerUsuario(String emailAddress, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      return true;
     } catch (e) {
-      print(e);
+      print('Error al registrar usuario: $e');
+      return false;
     }
   }
 
@@ -31,22 +26,23 @@ class FirebaseAdmin {
         password: password,
       );
       return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+    } catch (e) {
+      print('Error al iniciar sesión: $e');
       return false;
     }
   }
+
 
   Future<void> logOutUsuario() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> actualizarPerfilUsuario(FbProfile perfil) async{
-    String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
-    await db.collection("Usuarios").doc(uidUsuario).set(perfil.toFirestore());
+  Future<void> actualizarPerfilUsuario(FirebaseFirestore db, FbProfile perfil) async{
+    String uidUsuario = FirebaseAuth.instance.currentUser?.uid ?? '';
+    if (uidUsuario.isNotEmpty) {
+      await db.collection("Usuarios").doc(uidUsuario).set(perfil.toFirestore());
+    } else {
+      print('Error: El UID del usuario actual está vacío.');
+    }
   }
 }
