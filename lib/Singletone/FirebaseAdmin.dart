@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examenpmdm_pap_mmartinez_1ev/Singletone/DataHolder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import '../FirestoreObjects/FbPost.dart';
 import '../FirestoreObjects/FbProfile.dart';
@@ -47,12 +49,20 @@ class FirebaseAdmin {
     }
   }
 
-  Future<void> descargarPosts(FirebaseFirestore db) async {
+  Future<void> descargarPosts(FirebaseFirestore db, BuildContext context) async {
     CollectionReference<FbPost> ref = db.collection("Posts")
-        .withConverter(fromFirestore: FbPost
-        .fromFirestore,
-      toFirestore: (FbPost post, _) => post.toFirestore(),);
+        .withConverter(fromFirestore: FbPost.fromFirestore, toFirestore: (FbPost post, _) => post.toFirestore());
 
-    ref.snapshots().listen(datosDescargados, onError: descargaPostError,);
+    ref.snapshots().listen((postsDescargados) {
+      print("NUMERO DE POSTS ACTUALIZADOS>>>> ${postsDescargados.docChanges.length}");
+      DataHolder().listaPosts.clear();
+      for (int i = 0; i < postsDescargados.docChanges.length; i++) {
+        FbPost temp = postsDescargados.docChanges[i].doc.data()!;
+        DataHolder().listaPosts.add(temp);
+      }
+    }, onError: (error) {
+      print("Listen failed: $error");
+    });
   }
+
 }

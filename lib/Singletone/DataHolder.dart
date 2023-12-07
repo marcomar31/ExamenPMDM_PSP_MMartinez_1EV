@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../FirestoreObjects/FbPost.dart';
 import 'FirebaseAdmin.dart';
 
 class DataHolder {
@@ -6,6 +7,8 @@ class DataHolder {
   static final DataHolder _dataHolder = DataHolder._internal();
   FirebaseAdmin fbAdmin = FirebaseAdmin();
   FirebaseFirestore db = FirebaseFirestore.instance;
+
+  List<FbPost> listaPosts = [];
 
   DataHolder._internal();
 
