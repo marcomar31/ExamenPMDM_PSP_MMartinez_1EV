@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../FirestoreObjects/FbPost.dart';
 import '../FirestoreObjects/FbProfile.dart';
 
 class FirebaseAdmin {
@@ -44,5 +45,14 @@ class FirebaseAdmin {
     } else {
       print('Error: El UID del usuario actual está vacío.');
     }
+  }
+
+  Future<void> descargarPosts(FirebaseFirestore db) async {
+    CollectionReference<FbPost> ref = db.collection("Posts")
+        .withConverter(fromFirestore: FbPost
+        .fromFirestore,
+      toFirestore: (FbPost post, _) => post.toFirestore(),);
+
+    ref.snapshots().listen(datosDescargados, onError: descargaPostError,);
   }
 }
