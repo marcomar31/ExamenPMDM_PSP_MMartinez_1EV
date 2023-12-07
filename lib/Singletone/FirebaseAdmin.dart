@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
+import '../FirestoreObjects/FbProfile.dart';
 
 class FirebaseAdmin {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
   Future<void> registerUsuario(String emailAddress, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -38,5 +43,10 @@ class FirebaseAdmin {
 
   Future<void> logOutUsuario() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> actualizarPerfilUsuario(FbProfile perfil) async{
+    String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
+    await db.collection("Usuarios").doc(uidUsuario).set(perfil.toFirestore());
   }
 }

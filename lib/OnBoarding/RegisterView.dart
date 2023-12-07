@@ -1,3 +1,4 @@
+import 'package:examenpmdm_pap_mmartinez_1ev/FirestoreObjects/FbProfile.dart';
 import 'package:flutter/material.dart';
 
 import '../CustomViews/ButtonTextCustomizado.dart';
@@ -5,7 +6,7 @@ import '../CustomViews/EditTextCustomizado.dart';
 import '../Singletone/DataHolder.dart';
 
 class RegisterView extends StatelessWidget {
-  RegisterView({Key? key});
+  RegisterView({super.key});
 
   late BuildContext _context;
 
