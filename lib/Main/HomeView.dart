@@ -3,6 +3,7 @@ import 'package:examenpmdm_pap_mmartinez_1ev/Singletone/DataHolder.dart';
 import 'package:flutter/material.dart';
 
 import '../CustomViews/ButtomBarCustomizado.dart';
+import '../CustomViews/DrawerCustomizado.dart';
 import '../CustomViews/PostsGridView.dart';
 import '../CustomViews/PostsListView.dart';
 import '../FirestoreObjects/FbPost.dart';
@@ -60,6 +61,18 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  void onPressedDrawer(int indice){
+    if (indice == 0) {
+      Navigator.of(context).popAndPushNamed("/home_view");
+    } else if(indice == 1){
+      Navigator.of(context).popAndPushNamed("/ajustes_view");
+    } else if(indice == 2){
+      DataHolder().fbAdmin.logOutUsuario();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Se ha cerrado la sesión correctamente")));
+      Navigator.of(context).popAndPushNamed("/login_view");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,13 +94,14 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color.fromRGBO(22, 36, 71, 1),
-        automaticallyImplyLeading: false,
       ),
       body:
       Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), child:
         Center(child: celdasOLista(blIsList)),
       ),
+      drawer: DrawerCustomizado(onItemTap: onPressedDrawer),
       bottomNavigationBar: ButtomBarCustomizado(onBotonesClicked: onClickBottonMenu),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
     );

@@ -10,8 +10,6 @@ class ButtomBarCustomizado extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    //throw UnimplementedError();
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

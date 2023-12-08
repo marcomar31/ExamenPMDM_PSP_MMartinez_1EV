@@ -1,3 +1,4 @@
+import 'package:examenpmdm_pap_mmartinez_1ev/Main/AjustesView.dart';
 import 'package:flutter/material.dart';
 
 import 'Main/HomeView.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/login_view': (context) => LoginView(),
         '/register_view': (context) => RegisterView(),
         '/home_view': (context) => const HomeView(),
+        '/ajustes_view': (context) => const AjustesView(),
       },
       initialRoute: '/splash_view',
     );
