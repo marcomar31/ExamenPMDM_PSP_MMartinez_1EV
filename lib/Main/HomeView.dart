@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/Singletone/DataHolder.dart';
 import 'package:flutter/material.dart';
 
+import '../CustomViews/ButtomBarCustomizado.dart';
 import '../CustomViews/PostsGridView.dart';
 import '../CustomViews/PostsListView.dart';
 import '../FirestoreObjects/FbPost.dart';
@@ -16,6 +17,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   final List<FbPost> listaPosts = [];
+  bool blIsList = true;
 
   Widget? creadorDeItemLista(BuildContext context, int index) {
     return PostsListView(post: listaPosts[index],
@@ -32,6 +34,30 @@ class _HomeViewState extends State<HomeView> {
 
   Widget? creadorDeItemMatriz(BuildContext context, int index){
     return PostsGridView(post: listaPosts, iPosicion: index, onItemListaClickedFunction: (int index) { print("Click");}, numPostsFila: 4,);
+  }
+
+  Widget? celdasOLista(bool isList) {
+    if (isList) {
+      return ListView.separated(
+          padding: const EdgeInsets.all(8),
+          itemCount: listaPosts.length,
+          itemBuilder: creadorDeItemLista,
+          separatorBuilder: creadorDeSeparadorLista
+      );
+    } else {
+      return creadorDeItemMatriz(context, listaPosts.length);
+    }
+  }
+
+  void onClickBottonMenu(int indice) {
+    setState(() {
+      if(indice == 0){
+        blIsList = true;
+      }
+      else if(indice == 1){
+        blIsList = false;
+      }
+    });
   }
 
   @override
@@ -60,16 +86,9 @@ class _HomeViewState extends State<HomeView> {
       ),
       body:
       Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), child:
-        /*
-        Center(child: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: listaPosts.length,
-          itemBuilder: creadorDeItemLista,
-          separatorBuilder: creadorDeSeparadorLista),
-        ),
-         */
-        Center(child: creadorDeItemMatriz(context, listaPosts.length),)
+        Center(child: celdasOLista(blIsList)),
       ),
+      bottomNavigationBar: ButtomBarCustomizado(onBotonesClicked: onClickBottonMenu),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
     );
   }
