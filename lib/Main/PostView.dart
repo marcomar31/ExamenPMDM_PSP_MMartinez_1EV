@@ -37,7 +37,6 @@ class _PostViewState extends State<PostView> {
             ),
           ),
           centerTitle: true,
-          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(22, 36, 71, 1),
         ),
         body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -61,6 +60,13 @@ class _PostViewState extends State<PostView> {
           ],),
         ],),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed("/editpost_view");
+        },
+        child: const Icon(Icons.edit),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }

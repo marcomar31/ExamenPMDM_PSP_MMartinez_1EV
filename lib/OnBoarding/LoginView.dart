@@ -86,7 +86,7 @@ class LoginView extends StatelessWidget {
 
 
     return Scaffold(
-      body: column,
+      body: SingleChildScrollView(child: column),
       appBar: appBar,
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
     );
