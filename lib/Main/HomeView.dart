@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget? creadorDeItemLista(BuildContext context, int index) {
     return PostsListView(post: listaPosts[index],
-      dFontSize: 20, iPosicion: index, onItemListClickedFun: (int index) { print("Click");});
+      dFontSize: 20, iPosicion: index, onItemListClickedFun: onPressedItemList);
   }
 
   Widget creadorDeSeparadorLista(BuildContext context, int index) {
@@ -34,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget? creadorDeItemMatriz(BuildContext context, int index){
-    return PostsGridView(post: listaPosts, iPosicion: index, onItemListaClickedFunction: (int index) { print("Click");}, numPostsFila: 4,);
+    return PostsGridView(post: listaPosts, iPosicion: index, onItemListaClickedFunction: onPressedItemList, numPostsFila: 3,);
   }
 
   Widget? celdasOLista(bool isList) {
@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
   void onPressedItemList(int index) {
     DataHolder().selectedPost = listaPosts[index];
     DataHolder().saveSelectedPostInCache();
-    Navigator.of(context).pushNamed("/postview");
+    Navigator.of(context).pushNamed("/post_view");
   }
 
   @override

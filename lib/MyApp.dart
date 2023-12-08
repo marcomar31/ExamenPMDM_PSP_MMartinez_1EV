@@ -1,4 +1,5 @@
 import 'package:examenpmdm_pap_mmartinez_1ev/Main/AjustesView.dart';
+import 'package:examenpmdm_pap_mmartinez_1ev/Main/PostView.dart';
 import 'package:flutter/material.dart';
 
 import 'Main/HomeView.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/register_view': (context) => RegisterView(),
         '/home_view': (context) => const HomeView(),
         '/ajustes_view': (context) => const AjustesView(),
+        '/post_view': (context) => const PostView(),
       },
       initialRoute: '/splash_view',
     );
