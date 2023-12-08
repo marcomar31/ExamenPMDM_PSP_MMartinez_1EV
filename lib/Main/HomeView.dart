@@ -73,6 +73,12 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  void onPressedItemList(int index) {
+    DataHolder().selectedPost = listaPosts[index];
+    DataHolder().saveSelectedPostInCache();
+    Navigator.of(context).pushNamed("/postview");
+  }
+
   @override
   void initState() {
     super.initState();
