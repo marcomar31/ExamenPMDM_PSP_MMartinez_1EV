@@ -8,8 +8,6 @@ class DataHolder {
   FirebaseAdmin fbAdmin = FirebaseAdmin();
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  List<FbPost> listaPosts = [];
-
   DataHolder._internal();
 
   factory DataHolder() {

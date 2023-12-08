@@ -49,20 +49,12 @@ class FirebaseAdmin {
     }
   }
 
-  Future<void> descargarPosts(FirebaseFirestore db, BuildContext context) async {
+  Future<List<FbPost>> descargarPosts(FirebaseFirestore db) async {
     CollectionReference<FbPost> ref = db.collection("Posts")
         .withConverter(fromFirestore: FbPost.fromFirestore, toFirestore: (FbPost post, _) => post.toFirestore());
 
-    ref.snapshots().listen((postsDescargados) {
-      print("NUMERO DE POSTS ACTUALIZADOS>>>> ${postsDescargados.docChanges.length}");
-      DataHolder().listaPosts.clear();
-      for (int i = 0; i < postsDescargados.docChanges.length; i++) {
-        FbPost temp = postsDescargados.docChanges[i].doc.data()!;
-        DataHolder().listaPosts.add(temp);
-      }
-    }, onError: (error) {
-      print("Listen failed: $error");
-    });
+    QuerySnapshot<FbPost> querySnapshot = await ref.get();
+    List<FbPost> listaPosts = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return listaPosts;
   }
-
 }

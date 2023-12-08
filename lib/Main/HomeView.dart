@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/Singletone/DataHolder.dart';
 import 'package:flutter/material.dart';
 
+import '../CustomViews/PostsGridView.dart';
 import '../CustomViews/PostsListView.dart';
+import '../FirestoreObjects/FbPost.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -13,9 +15,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   FirebaseFirestore db = FirebaseFirestore.instance;
+  final List<FbPost> listaPosts = [];
 
   Widget? creadorDeItemLista(BuildContext context, int index) {
-    return PostsListView(post: DataHolder().listaPosts[index],
+    return PostsListView(post: listaPosts[index],
       dFontSize: 20, iPosicion: index, onItemListClickedFun: (int index) { print("Click");});
   }
 
@@ -27,11 +30,18 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  Widget? creadorDeItemMatriz(BuildContext context, int index){
+    return PostsGridView(post: listaPosts, iPosicion: index, onItemListaClickedFunction: (int index) { print("Click");}, numPostsFila: 4,);
+  }
+
   @override
   void initState() {
     super.initState();
-    DataHolder().fbAdmin.descargarPosts(db, context);
-  }
+    DataHolder().fbAdmin.descargarPosts(db).then((listaPosts) {
+      setState(() {
+        this.listaPosts.addAll(listaPosts);
+      });
+    });  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +60,15 @@ class _HomeViewState extends State<HomeView> {
       ),
       body:
       Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), child:
+        /*
         Center(child: ListView.separated(
           padding: const EdgeInsets.all(8),
-          itemCount: DataHolder().listaPosts.length,
+          itemCount: listaPosts.length,
           itemBuilder: creadorDeItemLista,
           separatorBuilder: creadorDeSeparadorLista),
         ),
+         */
+        Center(child: creadorDeItemMatriz(context, listaPosts.length),)
       ),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
     );
