@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/Singletone/DataHolder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../FirestoreObjects/FbPost.dart';
@@ -88,5 +91,20 @@ class FirebaseAdmin {
     FbPost postActualizado = FbPost.fromFirestore(snapshot, null);
 
     return postActualizado;
+  }
+
+  void subirImagen(String rutaEnNube, File imagen) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    // String rutaEnNube = "profile_pictures/${FirebaseAuth.instance.currentUser!.uid}/profile_picture_${DateTime.now().year}_${DateTime.now().month}_${DateTime.now().day}";
+    final rutaAFicheroEnNube = storageRef.child(rutaEnNube);
+
+    final metadata = SettableMetadata(contentType: "image/jpeg");
+    try {
+      await rutaAFicheroEnNube.putFile(imagen, metadata);
+
+    } on FirebaseException {
+      print("Se ha producido un error al subir la imagen");
+    }
   }
 }
