@@ -16,7 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  FirebaseFirestore firebaseFirestore = DataHolder().db;
   final List<FbPost> listaPosts = [];
   bool blIsList = true;
 
@@ -50,6 +50,14 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  Future<void> actualizarPosts() async {
+    List<FbPost> nuevosPosts = await DataHolder().fbAdmin.descargarPosts(firebaseFirestore);
+    setState(() {
+      listaPosts.clear();
+      listaPosts.addAll(nuevosPosts);
+    });
+  }
+
   void onClickBottonMenu(int indice) {
     setState(() {
       if(indice == 0){
@@ -73,16 +81,19 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void onPressedItemList(int index) {
+  void onPressedItemList(int index) async {
     DataHolder().selectedPost = listaPosts[index];
     DataHolder().saveSelectedPostInCache();
-    Navigator.of(context).pushNamed("/post_view");
+    bool resultado = await Navigator.of(context).pushNamed("/post_view") as bool? ?? false;
+    if (resultado) {
+      await actualizarPosts();
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    DataHolder().fbAdmin.descargarPosts(db).then((listaPosts) {
+    DataHolder().fbAdmin.descargarPosts(firebaseFirestore).then((listaPosts) {
       setState(() {
         this.listaPosts.addAll(listaPosts);
       });

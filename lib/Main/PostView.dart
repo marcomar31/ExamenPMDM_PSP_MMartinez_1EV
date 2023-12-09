@@ -25,6 +25,19 @@ class _PostViewState extends State<PostView> {
     });
   }
 
+  Future<void> onPressedEditPost() async {
+    var postEditado = await Navigator.of(context).pushNamed("/editpost_view") as FbPost?;
+    if (postEditado != null && (postEditado != selectedPost)) {
+      setState(() {
+        selectedPost = postEditado;
+      });
+      Navigator.pop(context, true);
+    } else {
+      Navigator.pop(context, false);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +50,13 @@ class _PostViewState extends State<PostView> {
             ),
           ),
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           backgroundColor: const Color.fromRGBO(22, 36, 71, 1),
         ),
         body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -61,9 +81,7 @@ class _PostViewState extends State<PostView> {
         ],),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed("/editpost_view");
-        },
+        onPressed: onPressedEditPost,
         child: const Icon(Icons.edit),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,

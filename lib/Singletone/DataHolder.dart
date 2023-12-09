@@ -6,8 +6,8 @@ import 'FirebaseAdmin.dart';
 class DataHolder {
 
   static final DataHolder _dataHolder = DataHolder._internal();
-  FirebaseAdmin fbAdmin = FirebaseAdmin();
   FirebaseFirestore db = FirebaseFirestore.instance;
+  FirebaseAdmin fbAdmin = FirebaseAdmin();
   FbPost? selectedPost;
 
   DataHolder._internal();
@@ -22,15 +22,20 @@ class DataHolder {
 
   void saveSelectedPostInCache() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('fbpost_titulo', selectedPost!.titulo);
-    prefs.setString('fbpost_cuerpo', selectedPost!.cuerpo);
-    prefs.setString('fbpost_urlImage', selectedPost!.sUrlImage);
+    prefs.setString('fbpost_uid', selectedPost?.uid ?? "");
+    prefs.setString('fbpost_titulo', selectedPost?.titulo ?? "");
+    prefs.setString('fbpost_cuerpo', selectedPost?.cuerpo ?? "");
+    prefs.setString('fbpost_urlImage', selectedPost?.sUrlImage ?? "");
   }
 
   Future<FbPost?> loadCachedFbPost() async {
     if(selectedPost!=null) return selectedPost;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    print("UID antes de guardar en SharedPreferences: ${selectedPost?.uid}");
+    String? fbpostUid = prefs.getString('fbpost_uid');
+    fbpostUid ??= "";
 
     String? fbpostTitulo = prefs.getString('fbpost_titulo');
     fbpostTitulo??="";
@@ -41,8 +46,8 @@ class DataHolder {
     String? fbpostUrlImage = prefs.getString('fbpost_urlImage');
     fbpostUrlImage??="";
 
-    print("SHARED PREFERENCES --> $fbpostTitulo");
-    selectedPost = FbPost(titulo: fbpostTitulo, cuerpo: fbpostCuerpo, sUrlImage: fbpostUrlImage);
+    print("SHARED PREFERENCES --> fbpostTitulo: $fbpostTitulo, fbpostUid: $fbpostUid");
+    selectedPost = FbPost(titulo: fbpostTitulo, cuerpo: fbpostCuerpo, sUrlImage: fbpostUrlImage, uid: fbpostUid);
 
     return selectedPost;
   }

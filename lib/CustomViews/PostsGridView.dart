@@ -31,10 +31,10 @@ class PostsGridView extends StatelessWidget {
             onItemListaClickedFunction!(index);
           },
           child: Container(
-            color: Color.fromRGBO(22, 36, 71, 1),
+            color: const Color.fromRGBO(22, 36, 71, 1),
             child: Stack(
               children: [
-                if (post[index].sUrlImage!.isNotEmpty) ...[
+                if (post[index].sUrlImage.isNotEmpty) ...[
                   SizedBox(
                     width: double.infinity,
                     child: Image.network(

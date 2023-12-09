@@ -1,8 +1,6 @@
-import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/CustomViews/ButtonTextCustomizado.dart';
 import 'package:examenpmdm_pap_mmartinez_1ev/CustomViews/EditTextCustomizado.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../FirestoreObjects/FbPost.dart';
@@ -16,6 +14,8 @@ class EditPostView extends StatefulWidget{
 }
 
 class _EditPostViewState extends State<EditPostView> {
+  FirebaseFirestore firebaseFirestore = DataHolder().db;
+
   TextEditingController tecTitulo = TextEditingController();
   TextEditingController tecCuerpo = TextEditingController();
 
@@ -30,8 +30,13 @@ class _EditPostViewState extends State<EditPostView> {
     tecCuerpo.text = selectedPost.cuerpo;
   }
 
-  void onPressedAceptar() {
-
+  void onPressedAceptar() async {
+    if (tecTitulo.text.isNotEmpty && tecCuerpo.text.isNotEmpty) {
+      FbPost post = await DataHolder().fbAdmin.updatePost(firebaseFirestore, selectedPost.uid!, tecTitulo.text, tecCuerpo.text);
+      Navigator.of(context).pop(post);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Todos los campos deben estar rellenos")));
+    }
   }
 
   void onPressedCancelar() {
@@ -56,7 +61,6 @@ class _EditPostViewState extends State<EditPostView> {
           ),
         ),
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
         automaticallyImplyLeading: false,
         backgroundColor: const Color.fromRGBO(22, 36, 71, 1),
       ),      body: Row(mainAxisAlignment: MainAxisAlignment.center,

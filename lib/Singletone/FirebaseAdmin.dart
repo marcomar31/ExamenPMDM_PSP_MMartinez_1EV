@@ -50,11 +50,43 @@ class FirebaseAdmin {
   }
 
   Future<List<FbPost>> descargarPosts(FirebaseFirestore db) async {
+    List<FbPost> listaPosts = [];
+
     CollectionReference<FbPost> ref = db.collection("Posts")
-        .withConverter(fromFirestore: FbPost.fromFirestore, toFirestore: (FbPost post, _) => post.toFirestore());
+        .withConverter(
+      fromFirestore: FbPost.fromFirestore,
+      toFirestore: (FbPost post, _) => post.toFirestore(),
+    );
 
     QuerySnapshot<FbPost> querySnapshot = await ref.get();
-    List<FbPost> listaPosts = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    for (var doc in querySnapshot.docs) {
+      FbPost post = doc.data();
+      listaPosts.add(post);
+    }
+
     return listaPosts;
+  }
+
+
+  void subirNuevoPost(FirebaseFirestore db, FbPost post) {
+    CollectionReference<FbPost> postsRef = db.collection("Posts")
+        .withConverter(
+      fromFirestore: FbPost.fromFirestore,
+      toFirestore: (FbPost post, _) => post.toFirestore(),
+    );
+    postsRef.add(post);
+  }
+
+  Future<FbPost> updatePost(FirebaseFirestore db, String uid, String nuevoTitulo, String nuevoCuerpo) async {
+    await db.collection("Posts").doc(uid).update({
+      "titulo": nuevoTitulo,
+      "cuerpo": nuevoCuerpo,
+    });
+
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await db.collection("Posts").doc(uid).get();
+    FbPost postActualizado = FbPost.fromFirestore(snapshot, null);
+
+    return postActualizado;
   }
 }
