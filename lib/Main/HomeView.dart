@@ -90,6 +90,13 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  void onPressedCreatePost() async {
+    bool resultado = await Navigator.of(context).pushNamed("/createpost_view") as bool? ?? false;
+    if (resultado) {
+      await actualizarPosts();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -118,6 +125,11 @@ class _HomeViewState extends State<HomeView> {
       Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), child:
         Center(child: celdasOLista(blIsList)),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onPressedCreatePost,
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       drawer: DrawerCustomizado(onItemTap: onPressedDrawer),
       bottomNavigationBar: ButtomBarCustomizado(onBotonesClicked: onClickBottonMenu),
       backgroundColor: const Color.fromRGBO(31, 64, 104, 1),

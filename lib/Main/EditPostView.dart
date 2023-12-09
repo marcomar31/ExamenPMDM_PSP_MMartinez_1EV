@@ -33,6 +33,7 @@ class _EditPostViewState extends State<EditPostView> {
   void onPressedAceptar() async {
     if (tecTitulo.text.isNotEmpty && tecCuerpo.text.isNotEmpty) {
       FbPost post = await DataHolder().fbAdmin.updatePost(firebaseFirestore, selectedPost.uid!, tecTitulo.text, tecCuerpo.text);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Se ha editado el post exitosamente")));
       Navigator.of(context).pop(post);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Todos los campos deben estar rellenos")));
@@ -63,38 +64,42 @@ class _EditPostViewState extends State<EditPostView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: const Color.fromRGBO(22, 36, 71, 1),
-      ),      body: Row(mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
+      ),
+      body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(
             children: [
-              Padding(padding: const EdgeInsets.only(top: 20), child:
-              (selectedPost.sUrlImage == "")
-                  ? Container(width: 300, height: 300, color: const Color.fromRGBO(228, 63, 90, 1), child:
-                      const Align( alignment: Alignment.center,
-                        child: Text("Post sin imagen"),
-                      ),
-                    )
-                  : Image.network(selectedPost.sUrlImage, width: 300, height: 300,),
-              ),
-              const SizedBox(height: 30,),
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                  child: EditTextCustomizado(tec: tecTitulo, labelText: "Título")
-              ),
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                child: EditTextCustomizado(tec: tecCuerpo, labelText: "Cuerpo")
-              ),
-              Row(
+              Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                    child: ButtonTextCustomizado(buttonText: "ACEPTAR", onPressed: onPressedAceptar),
+                  Padding(padding: const EdgeInsets.only(top: 20), child:
+                  (selectedPost.sUrlImage == "")
+                      ? Container(width: 300, height: 300, color: const Color.fromRGBO(228, 63, 90, 1), child:
+                          const Align( alignment: Alignment.center,
+                            child: Text("Post sin imagen"),
+                          ),
+                        )
+                      : Image.network(selectedPost.sUrlImage, width: 300, height: 300,),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                    child: ButtonTextCustomizado(buttonText: "CANCELAR", onPressed: onPressedCancelar),
+                  const SizedBox(height: 30,),
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                      child: EditTextCustomizado(tec: tecTitulo, labelText: "Título")
                   ),
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                    child: EditTextCustomizado(tec: tecCuerpo, labelText: "Cuerpo")
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        child: ButtonTextCustomizado(buttonText: "ACEPTAR", onPressed: onPressedAceptar),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        child: ButtonTextCustomizado(buttonText: "CANCELAR", onPressed: onPressedCancelar),
+                      ),
+                    ],
+                  )
                 ],
-              )
+              ),
             ],
           ),
         ],
