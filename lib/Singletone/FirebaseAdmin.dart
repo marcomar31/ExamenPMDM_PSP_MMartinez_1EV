@@ -43,12 +43,43 @@ class FirebaseAdmin {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> actualizarPerfilUsuario(FirebaseFirestore db, FbProfile perfil) async{
+  Future<void> updatePerfilUsuario(FirebaseFirestore db, FbProfile perfil) async{
     String uidUsuario = FirebaseAuth.instance.currentUser?.uid ?? '';
     if (uidUsuario.isNotEmpty) {
       await db.collection("Usuarios").doc(uidUsuario).set(perfil.toFirestore());
     } else {
       print('Error: El UID del usuario actual está vacío.');
+    }
+  }
+
+  Future<FbProfile?> loadUserProfile(FirebaseFirestore db) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        DocumentSnapshot<Map<String, dynamic>> userDoc =
+        await db.collection("Usuarios").doc(currentUser.uid).get();
+
+        if (userDoc.exists) {
+          return FbProfile.fromFirestore(userDoc, null);
+        } else {
+          // El usuario no existe en Firestore
+          print("El usuario no existe");
+          return null;
+        }
+      }
+    } catch (e) {
+      print("Error al cargar el perfil del usuario: $e");
+    }
+  }
+
+  Future<File?> cargarImagenDesdeNube(String url) async {
+    try {
+      Reference storageReference = FirebaseStorage.instance.ref().child(url);
+      final File imageFile = File(await storageReference.getDownloadURL());
+      return imageFile;
+    } catch (e) {
+      print("Error al cargar la imagen desde la nube: $e");
+      return null;
     }
   }
 
@@ -71,7 +102,6 @@ class FirebaseAdmin {
     return listaPosts;
   }
 
-
   void subirNuevoPost(FirebaseFirestore db, FbPost post) {
     CollectionReference<FbPost> postsRef = db.collection("Posts")
         .withConverter(
@@ -93,18 +123,18 @@ class FirebaseAdmin {
     return postActualizado;
   }
 
-  void subirImagen(String rutaEnNube, File imagen) async {
+  Future<String?> subirImagen(String rutaEnNube, File imagen) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    // String rutaEnNube = "profile_pictures/${FirebaseAuth.instance.currentUser!.uid}/profile_picture_${DateTime.now().year}_${DateTime.now().month}_${DateTime.now().day}";
     final rutaAFicheroEnNube = storageRef.child(rutaEnNube);
 
     final metadata = SettableMetadata(contentType: "image/jpeg");
     try {
       await rutaAFicheroEnNube.putFile(imagen, metadata);
-
+      return rutaAFicheroEnNube.getDownloadURL();
     } on FirebaseException {
       print("Se ha producido un error al subir la imagen");
+      return null;
     }
   }
 }

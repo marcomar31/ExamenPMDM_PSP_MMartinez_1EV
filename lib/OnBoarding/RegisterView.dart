@@ -26,8 +26,8 @@ class RegisterView extends StatelessWidget {
           if (registroExitoso) {
             ScaffoldMessenger.of(_context).showSnackBar(const SnackBar(content: Text("Usuario registrado exitosamente")));
             DataHolder().fbAdmin.logInUsuario(tecUsername.text.toLowerCase(), tecPassword.text);
-            FbProfile fbProfile = FbProfile(nombre: tecName.text);
-            DataHolder().fbAdmin.actualizarPerfilUsuario(firebaseFirestore, fbProfile);
+            FbProfile fbProfile = FbProfile(nombre: tecName.text, sUrlProfilePicture: "");
+            DataHolder().fbAdmin.updatePerfilUsuario(firebaseFirestore, fbProfile);
             Navigator.of(_context).popAndPushNamed("/home_view");
           }
         } else {
